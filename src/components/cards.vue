@@ -1,6 +1,11 @@
 <template>
-  <section>
-    <div class="card p-2 py-3 mb-2">
+  <section v-if="games.length > 0">
+    <div
+      v-for="game in games"
+      :key="game._id"
+      class="card p-2 py-3 mb-2"
+      :id="game._id"
+    >
       <div class="row m-auto">
         <div class="order-2 order-sm-1 col-12 col-sm-3  m-auto  ">
           <img
@@ -10,19 +15,22 @@
           />
         </div>
         <div class="order-3 order-sm-2 col-12 col-sm-7 d-flex flex-column ">
-          <h5>Game title</h5>
-          <h6 class="text-muted">Release Date : <span> 13/08/2021 </span></h6>
+          <h5>{{ game.name }}</h5>
+          <h6 class="text-muted">
+            Release Date :
+            <span>
+              {{ new Date(game.first_release_date).toDateString() }}
+            </span>
+          </h6>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, sunt
-            cupiditate illum blanditiis tempora quas dolor expedita doloremque
-            qui beatae, assumenda nostrum vel
+            {{ game.summary }}
           </p>
         </div>
         <div class="order-1 order-sm-3 col-sm-2   m-auto">
           <div
             class="d-block m-auto rounded-circle h3 font-weight-bold pl-3 pt-1 bg-primary border-0"
           >
-            1
+            {{ game.rating.toString().substr(0, 1) }}
           </div>
         </div>
       </div>
@@ -31,7 +39,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ['games'],
+  data() {
+    return {};
+  },
+  methods: {},
+  computed: {
+    // filterGamesReder() {
+    //   return this.games.map((game) => {
+    //     return { _id: game._id, name, summary, rating, first_release_date };
+    //   });
+    // },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
