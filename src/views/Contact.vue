@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div
-      class="col-12 col-md-6 mx-auto contact d-flex flex-column align-items-start mt-5"
+      class="col-12 col-md-8 col-lg-6 mx-auto contact d-flex flex-column align-items-start mt-5"
     >
       <h3 class=" text-uppercase  text-light my-4">
         get in touch
@@ -11,11 +11,8 @@
         consectetur ad totam fugit, nemo libero molestiae commodi maxime
         voluptas ea.
       </p>
-      <FormContact class="mt-5" />
+      <FormContact class="mt-4" />
     </div>
-    <!-- <div class="col-12 col-md-6 mx-auto mt-5">
-      <FormContact />
-    </div> -->
   </div>
 </template>
 

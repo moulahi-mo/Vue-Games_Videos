@@ -1,5 +1,5 @@
 <template>
-  <ul class="nav ">
+  <ul class="nav d-flex justify-content-between">
     <!-- <div class="d-flex">
       <h3 class="display-3 text-scondary text-uppercase mb-5 ml-3">
         video games
@@ -14,6 +14,13 @@
         <router-link :to="{ name: 'Contact' }"> <h3>contact</h3> </router-link>
       </li>
     </div>
+
+    <router-link :to="{ name: 'Auth' }">
+      <button type="button" class="btn d-block mt-3 ">
+        <i class="material-icons small">person</i>
+        Login
+      </button>
+    </router-link>
   </ul>
 </template>
 
@@ -25,7 +32,7 @@ export default {};
 .nav {
   padding-top: 50px;
   display: flex;
-  flex-direction: column;
+
   li h3 {
     text-transform: uppercase;
     font-weight: 1.5rem;
@@ -35,6 +42,11 @@ export default {};
   }
   router-link {
     text-decoration: none !important;
+  }
+  .btn {
+    color: #c1d1e8;
+    background-color: #5692e8;
+    padding: 6px 20px !important;
   }
 }
 </style>
