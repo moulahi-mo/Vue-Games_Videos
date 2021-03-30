@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap');
+
+body {
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #081221;
+  background-image: linear-gradient(to bottom right, #081221, #03080f);
+  color: #c1d1e8;
+  font-family: 'Mulish', sans-serif;
+
+  a,
+  router-link {
+    text-decoration: none !important;
+  }
+  a,
+  button,
+  li,
+  i {
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+  }
+}

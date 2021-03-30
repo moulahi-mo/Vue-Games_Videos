@@ -1,30 +1,47 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="container">
+    <Navbar />
+    <router-view />
   </div>
-  <router-view/>
 </template>
+<script>
+import Navbar from './components/navbar.vue';
+export default {
+  components: { Navbar },
+};
+</script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #081221;
+  background: rgb(8, 18, 33);
+  background: linear-gradient(
+    180deg,
+    rgba(8, 18, 33, 1) 51%,
+    rgba(3, 8, 15, 1) 86%
+  );
 
-#nav {
-  padding: 30px;
+  color: #c1d1e8;
+  font-family: 'Mulish', sans-serif;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  a,
+  router-link {
+    text-decoration: none !important;
+  }
+  a,
+  button,
+  input,
+  li,
+  .card,
+  i {
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    border-radius: 0;
   }
 }
 </style>
