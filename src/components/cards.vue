@@ -40,6 +40,7 @@
 
 <script>
 export default {
+  components: {},
   props: ['games'],
   data() {
     return {};
@@ -57,12 +58,13 @@ export default {
 
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;900&display=swap');
+$basic: #0e1a2b;
 .card {
   img {
     width: 100px;
     height: 60%;
   }
-  background: #0e1a2b;
+  background: $basic;
   color: #c1d1e8;
   .rounded-circle {
     width: 44px;

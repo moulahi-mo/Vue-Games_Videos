@@ -1,8 +1,9 @@
 <template>
   <section
-    class="listing d-flex flex-column flex-lg-row justify-content-between mt-5"
+    class="listing d-flex flex-column flex-lg-row justify-content-between mt-5 pb-5"
   >
-    <div v-if="!isLoading" class="row">
+    <div v-if="!isLoading && games.length > 0" class="row">
+      <!-- ! filter box-->
       <div class="col-12 col-lg-4">
         <Filterbox
           @onClearing="onClearing()"
@@ -12,20 +13,32 @@
           class="my-3"
         />
       </div>
+      <!-- ! cards-->
       <div class="col-12 col-lg-8 mt-3">
-        <Cards v-if="games.length > 0" :games="games" />
+        <Cards :games="games" />
+      </div>
+      <!-- ! pagnation-->
+      <div class="col-12  mt-3">
+        <Pagination
+          @onPagination="onPagination($event)"
+          :pagination="pagination"
+          class="d-block mx-auto page"
+        />
       </div>
     </div>
-
-    <!-- ! no data-->
-    <div class="my-5 mx-auto" v-else>
-      <NoData v-if="!isLoading || !isError" />
-    </div>
-    <!-- ! loading-->
-    <Loader v-if="isLoading && !isError" />
-    <!-- ! loading-->
-    <Error v-if="isError" />
   </section>
+
+  <!-- ! loading-->
+  <Loader v-if="isLoading && !isError" class="mx-auto d-block" />
+  <!-- ! error-->
+  <Error v-if="isError" :message="isError" />
+  <!-- ! no data-->
+
+  <NoData
+    class="my-5 mx-auto"
+    v-if="!isLoading && games.length == 0 && !isError"
+    :message="'no Games founds in our data base'"
+  />
 </template>
 
 <script>
@@ -34,34 +47,42 @@ import Filterbox from '../components/filterbox.vue';
 import Error from '../components/shared/error.vue';
 import Loader from '../components/shared/loader.vue';
 import NoData from '../components/shared/noData.vue';
+import Pagination from '../components/shared/pagination';
 export default {
   name: 'Home',
-  components: { Filterbox, Cards, NoData, Loader, Error },
+  components: { Filterbox, Cards, NoData, Loader, Error, Pagination },
   data() {
     return {
       isLoading: false,
       isError: null,
       games: [],
       list: [],
+      pagination: {},
+      limit: 20,
     };
   },
   mounted() {
     this.FectAllGames();
   },
   methods: {
-    async FectAllGames() {
+    async FectAllGames(limit = 20, page = 1) {
       this.isLoading = true;
       this.isError = null;
       try {
-        const res = await fetch('http://localhost:3000/api/v1/games');
+        const res = await fetch(
+          'http://localhost:3000/api/v1/games?' + `limit=${limit}&page=${page}`
+        );
         const data = await res.json();
         this.games = data.data;
+        this.pagination = data.pagination;
+
         this.list = this.games;
         this.isLoading = false;
         console.log(data);
       } catch (err) {
-        this.isError = err.message ? err.message : err;
         this.isLoading = false;
+        this.isError = err.message ? err.message : err;
+
         console.log(err);
       }
     },
@@ -73,6 +94,11 @@ export default {
     },
     onClearing() {
       this.games = this.list;
+    },
+
+    //* pagination
+    onPagination(page) {
+      this.FectAllGames(this.limit, page);
     },
   },
   computed: {},

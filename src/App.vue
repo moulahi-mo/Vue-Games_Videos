@@ -5,9 +5,11 @@
   </div>
 </template>
 <script>
+global.jQuery = require('../node_modules/jquery/dist/jquery');
+var $ = global.jQuery;
 import Navbar from './components/navbar.vue';
 export default {
-  components: { Navbar },
+  components: { Navbar, $ },
 };
 </script>
 
