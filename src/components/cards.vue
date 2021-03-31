@@ -1,4 +1,13 @@
 <template>
+  <Toast
+    @onToastClose="isToast = false"
+    v-if="isToast"
+    :message="{
+      header: 'Delete',
+      sub: 'deleting video Game ..',
+      message: `video game with id : ${toDelete} , was successfully deleted`,
+    }"
+  />
   <section v-if="games.length > 0">
     <div
       v-for="game in games"
@@ -7,12 +16,53 @@
       :id="game._id"
     >
       <div class="row m-auto">
-        <div class="order-2 order-sm-1 col-12 col-sm-3  m-auto  ">
+        <div
+          class="order-2 order-sm-1 col-12 col-sm-3 d-flex flex-column justify-content-center align-items-center m-auto  "
+        >
           <img
             src="../assets/holder.png"
             alt=""
             class="img-fluid  d-block mx-auto my-5 my-sm-0"
           />
+          <!-- buttons -->
+          <aside class="icons d-flex mt-sm-3 mb-5 mb-sm-0">
+            <i
+              class="material-icons   text-primary "
+              data-toggle="tooltip"
+              data-placement="top"
+              title="More Details"
+            >
+              <router-link :to="{ name: 'Details', params: { id: game._id } }"
+                >loupe</router-link
+              >
+            </i>
+            <i
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Edit Game"
+              class="material-icons  text-warning  mx-3"
+            >
+              <router-link
+                class="text-warning"
+                :to="{
+                  name: 'Details',
+                  params: { id: game._id },
+                  query: { type: 'edit' },
+                }"
+              >
+                create
+              </router-link>
+            </i>
+
+            <i
+              @click.self="onRemove(game._id)"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Delete Game"
+              class="material-icons  text-danger "
+              >delete</i
+            >
+          </aside>
         </div>
         <div class="order-3 order-sm-2 col-12 col-sm-7 d-flex flex-column ">
           <h5>{{ game.name }}</h5>
@@ -39,13 +89,23 @@
 </template>
 
 <script>
+import Toast from '../components/shared/toast';
 export default {
-  components: {},
+  components: { Toast },
   props: ['games'],
   data() {
-    return {};
+    return {
+      toDelete: null,
+      isToast: false,
+    };
   },
-  methods: {},
+  methods: {
+    onRemove(id) {
+      this.toDelete = id;
+      this.isToast = true;
+      console.log(id);
+    },
+  },
   computed: {
     // filterGamesReder() {
     //   return this.games.map((game) => {
@@ -71,6 +131,9 @@ $basic: #0e1a2b;
     height: 44px;
     font-family: 'Mulish', sans-serif;
     font-size: 1.75rem;
+  }
+  .icons i {
+    font-size: 1.2rem;
   }
 }
 </style>

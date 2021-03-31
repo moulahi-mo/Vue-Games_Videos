@@ -15,8 +15,8 @@
       style="position: absolute; top: 0; right: 0;"
     >
       <div class="toast-header">
-        <strong class="mr-auto text-warning">Contact</strong>
-        <small class="text-muted">We will contact you soon</small>
+        <strong class="mr-auto text-warning">{{ message.header }}</strong>
+        <small class="text-muted">{{ message.sub }}</small>
         <button
           @click="$emit('onToastClose')"
           type="button"
@@ -28,7 +28,7 @@
         </button>
       </div>
       <div class="toast-body ">
-        {{ message }}
+        {{ message.message }}
       </div>
     </div>
   </div>

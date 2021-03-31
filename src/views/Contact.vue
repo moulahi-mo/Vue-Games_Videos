@@ -2,7 +2,11 @@
   <Toast
     @onToastClose="isToast = false"
     v-if="isToast"
-    :message="'Thank you, the message have been sent successfully'"
+    :message="{
+      header: 'Contact',
+      sub: 'We will contact you soon',
+      message: 'Thank you, the message have been sent successfully',
+    }"
   />
   <div class="row">
     <div

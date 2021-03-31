@@ -16,7 +16,10 @@
     </div>
 
     <router-link :to="{ name: 'Auth' }">
-      <button type="button" class="btn d-block mt-3 ">
+      <button
+        type="button"
+        class="btn d-block mt-3 text-warning font-weight-bold"
+      >
         <i class="material-icons small">person</i>
         Login
       </button>
