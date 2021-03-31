@@ -10,11 +10,20 @@
   />
   <section v-if="games.length > 0">
     <div
-      v-for="game in games"
+      v-for="game in FilterFromDeleted"
       :key="game._id"
       class="card p-2 py-3 mb-2"
       :id="game._id"
     >
+      <Modal
+        @onDelete="onDelete($event)"
+        @onClose="onClose()"
+        id="modal"
+        :idg="game._id"
+        :game="game"
+        v-if="isModale && toDelete === game._id"
+      />
+
       <div class="row m-auto">
         <div
           class="order-2 order-sm-1 col-12 col-sm-3 d-flex flex-column justify-content-center align-items-center m-auto  "
@@ -55,8 +64,9 @@
             </i>
 
             <i
+              data-toggle="modal"
+              data-target="#modal"
               @click.self="onRemove(game._id)"
-              data-toggle="tooltip"
               data-placement="top"
               title="Delete Game"
               class="material-icons  text-danger "
@@ -90,23 +100,46 @@
 
 <script>
 import Toast from '../components/shared/toast';
+import Modal from './shared/modal.vue';
 export default {
-  components: { Toast },
+  components: { Toast, Modal },
   props: ['games'],
   data() {
     return {
       toDelete: null,
-      isToast: false,
+
+      // isToast: false,
+      isModale: false,
     };
   },
   methods: {
     onRemove(id) {
+      this.isModale = true;
       this.toDelete = id;
-      this.isToast = true;
+      // this.isToast = true;
       console.log(id);
+    },
+    onClose() {
+      this.isModale = false;
+    },
+    onDelete(id) {
+      this.FilterFromDeleted(id);
     },
   },
   computed: {
+    FilterFromDeleted(id) {
+      if (id) {
+        this.games.forEach((game, index) => {
+          if (game._id === id) {
+            this.games.splice(index, 1);
+          }
+        });
+        return this.games;
+      } else {
+        return this.games;
+      }
+    },
+
     // filterGamesReder() {
     //   return this.games.map((game) => {
     //     return { _id: game._id, name, summary, rating, first_release_date };
@@ -118,13 +151,13 @@ export default {
 
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;900&display=swap');
-$basic: #0e1a2b;
+
 .card {
   img {
     width: 100px;
     height: 60%;
   }
-  background: $basic;
+  background: #0e1a2b;
   color: #c1d1e8;
   .rounded-circle {
     width: 44px;
