@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Details from '../components/games/details.vue';
+import Reset from '../views/Reset.vue';
 const routes = [
   {
     path: '/',
@@ -25,6 +26,11 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue'),
+  },
+  {
+    path: '/reset',
+    name: 'Reset',
+    component: Reset,
   },
 ];
 

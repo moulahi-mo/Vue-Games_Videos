@@ -6,7 +6,7 @@
       v-if="reset"
       :HasToRegister="HasToRegister"
     />
-    <div v-if="!isLoading" class="col-12 ml-auto">
+    <div v-if="!isLoading" class="col-12 ml-auto d-flex flex-column">
       <h6 class="text-muted text-center">
         {{
           !HasToRegister
@@ -16,10 +16,20 @@
 
         <span
           @click.self="onRegister()"
-          class="register text-warning mr-3 d-inline-block"
+          class=" text-warning mr-3 d-inline-block"
         >
           {{ !HasToRegister ? ' Regiter Now' : ' login Now' }}
         </span>
+      </h6>
+
+      <h6 class="text-muted text-center mt-3">
+        You forgot your password ?
+        <router-link
+          :to="{ name: 'Reset' }"
+          class="text-danger mr-3 d-inline-block"
+        >
+          Reset Password Now
+        </router-link>
       </h6>
     </div>
   </section>
@@ -49,7 +59,7 @@ export default {
 <style lang="scss" scoped>
 .auth {
   min-height: 100vh;
-  .register {
+  span {
     cursor: pointer;
   }
 }

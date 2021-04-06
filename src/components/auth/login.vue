@@ -40,7 +40,9 @@
               <!-- ! email -->
               <div class="col-12 ">
                 <div class="form-group">
-                  <label for="">Email Address <span>*</span></label>
+                  <label for=""
+                    >Email Address <span v-if="HasToRegister">*</span></label
+                  >
                   <input
                     required
                     minlength="5"
@@ -58,7 +60,9 @@
               <!-- ! password -->
               <div class="col-12">
                 <div class="form-group">
-                  <label for="">Password <span>*</span></label>
+                  <label for=""
+                    >Password <span v-if="HasToRegister">*</span></label
+                  >
                   <input
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
                     type="password"
@@ -88,7 +92,7 @@
                     v-model="user.confirmPassword"
                     class="form-control"
                     name="confirmPassword"
-                    placeholder="Confirm your Password please"
+                    placeholder="Confirm your Password "
                   />
                   <small class="form-text text-muted"></small>
                 </div>
@@ -134,6 +138,7 @@ export default {
   components: { Error, Loader },
   data() {
     return {
+      url: 'https://play-area.herokuapp.com/api/v1/auth/',
       user: {
         name: null,
         email: null,
@@ -150,33 +155,55 @@ export default {
   mounted() {
     this.$emit('restart', this.$refs.form);
     this.$refs.form.reset();
+    console.log(this.$store.state.isAuth);
   },
   methods: {
     onSubmit() {
       this.isLoading = true;
       this.$emit('isLoading');
       this.isError = null;
+      //* on Register submit
+      if (this.HasToRegister) {
+        axios
+          .post(this.url + 'signup', {
+            ...this.user,
+            confirmPassword: undefined,
+          })
+          .then((res) => {
+            res.error ? (this.isError = res.error) : '';
+            this.isLoading = false;
+            console.log(res);
+            this.$router.push({ name: 'Home' });
+            this.$store.state.isAuth = true;
+          })
+          .catch((err) => {
+            this.isLoading = false;
+            this.isError = err.message ? err.message : err.error;
 
-      axios
-        .post('https://play-area.herokuapp.com/api/v1/auth/login', {
-          email: this.email,
-          password: this.password,
-        })
-        .then((res) => {
-          this.isLoading = false;
-          console.log(res);
-        })
-        .catch((err) => {
-          this.isLoading = false;
-          this.isError = err.message ? err.message : err;
+            console.log(err);
+          });
+      }
+      //* on Login submit
+      else if (!this.HasToRegister) {
+        axios
+          .post(this.url + 'login', {
+            email: this.user.email,
+            password: this.user.password,
+          })
+          .then((res) => {
+            this.isLoading = false;
+            console.log(res);
+            this.$router.push({ name: 'Home' });
+            this.$store.state.isAuth = true;
+            console.log(this.$store.state.isAuth);
+          })
+          .catch((err) => {
+            this.isLoading = false;
+            this.isError = err.message ? err.message : err;
 
-          console.log(err);
-        });
-      // if (res.error) {
-      //   this.isError = res.message;
-      // } else {
-      //   //   this.$router.push({ name: 'Home' });
-      // }
+            console.log(err);
+          });
+      }
     },
     onConfirmPassword(event) {
       const cPassword = event.target.value.trim();

@@ -1,11 +1,5 @@
 <template>
-  <ul class="nav d-flex justify-content-between">
-    <!-- <div class="d-flex">
-      <h3 class="display-3 text-scondary text-uppercase mb-5 ml-3">
-        video games
-      </h3>
-      <h3 class="display-3 text-scondary text-uppercase mb-5 ml-5">contact</h3>
-    </div> -->
+  <ul class="nav d-flex justify-content-between flex-column flex-md-row">
     <div class="d-flex flex-column flex-sm-row">
       <li class="mt-4">
         <router-link :to="{ name: 'Home' }"> <h3>video games</h3> </router-link>
@@ -14,8 +8,8 @@
         <router-link :to="{ name: 'Contact' }"> <h3>contact</h3> </router-link>
       </li>
     </div>
-
-    <router-link :to="{ name: 'Auth' }">
+    <!-- !  Login-->
+    <router-link v-if="!auth" :to="{ name: 'Auth' }" class="mt-3 ml-5">
       <button
         type="button"
         class="login btn d-block mt-3 text-warning font-weight-bold"
@@ -24,11 +18,44 @@
         Login
       </button>
     </router-link>
+    <!-- !  Logout-->
+    <div v-if="auth" class="mt-3 ml-5">
+      <button
+        @click="onLogout"
+        type="button"
+        class="login btn d-block mt-3 text-warning font-weight-bold"
+      >
+        <i class="material-icons small">logout</i>
+        Logout
+      </button>
+    </div>
   </ul>
 </template>
 
 <script>
-export default {};
+const axios = require('axios');
+export default {
+  methods: {
+    async onLogout() {
+      try {
+        await axios.post(
+          'https://play-area.herokuapp.com/api/v1/auth/logout',
+          {}
+        );
+        // ! need to register the token in local storage to send it in headers for loggin out
+        this.$store.state.isAuth = false;
+        this.$router.push('/');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  computed: {
+    auth() {
+      return this.$store.state.isAuth;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +80,11 @@ export default {};
   }
   .login {
     color: goldenrod;
+
+    box-shadow: 0 0 65px rgb(255, 230, 0), 0 0 0 1px hsla(0, 0%, 100%, 0.1),
+      0 2px 2px rgba(0, 0, 0, 0.0274351), 0 4px 4px rgba(0, 0, 0, 0.0400741),
+      0 10px 8px rgba(0, 0, 0, 0.0499982), 0 15px 15px rgba(0, 0, 0, 0.0596004),
+      0 30px 30px rgba(0, 0, 0, 0.0709366), 0 70px 65px rgba(0, 0, 0, 0.09);
   }
 }
 </style>
