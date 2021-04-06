@@ -1,14 +1,20 @@
 <template>
   <section v-if="!isLoading && game._id" class="mt-5 pt-5">
-    <i
-      @click.self="onRemove(game._id)"
-      data-toggle="tooltip"
-      data-placement="right"
-      title="Back to Games"
-      class="material-icons h1 mb-3 text-danger "
-    >
-      <router-link :to="{ name: 'Home' }">arrow_back</router-link>
-    </i>
+    <div class="d-flex ">
+      <i
+        @click.self="onRemove(game._id)"
+        data-toggle="tooltip"
+        data-placement="right"
+        title="Back to Games"
+        class="material-icons h1 mb-3 text-danger "
+      >
+        <router-link :to="{ name: 'Home' }">arrow_back</router-link>
+      </i>
+      <h5 class="ml-3 pt-2">
+        Back
+      </h5>
+    </div>
+
     <div class="card p-2 py-3 mb-2" :id="game._id">
       <div class="row m-auto">
         <div

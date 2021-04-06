@@ -3,9 +3,9 @@
     <div class=" modal-dialog">
       <div class="card modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-danger">
+          <h5 class="modal-title text-warning">
             Delete Video Game
-            <i class="material-icons text-danger medium pt-3 ml-3">
+            <i class="warning material-icons text-danger large pt-3 ml-3">
               report_problem
             </i>
           </h5>
@@ -40,7 +40,7 @@
           <button
             @click="onRemove()"
             type="button"
-            class="btn btn-warning text-secondary"
+            class="btn btn-danger text-light"
             data-dismiss="modal"
           >
             Confirm Delete
@@ -75,6 +75,9 @@ export default {
 
 <style lang="scss" scoped>
 .card {
+  .warning {
+    font-size: 2.3rem;
+  }
   img {
     width: 100px;
     height: 60%;

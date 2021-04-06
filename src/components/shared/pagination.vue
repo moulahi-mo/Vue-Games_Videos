@@ -4,14 +4,14 @@
       <li :class="{ disabled: !pagination.previousPage }" class="page-item">
         <a @click.self="onPreviousPage()" class="page-link">Previous</a>
       </li>
-      <li class="page-item">
+      <li v-if="pagination.nextPage" class="page-item">
         <a
           @click.self="$emit('onPagination', pagination.nextPage - 1)"
           class="page-link"
           >{{ pagination.nextPage - 1 }}
         </a>
       </li>
-      <li class="page-item">
+      <li v-if="pagination.nextPage" class="page-item">
         <a
           @click.self="$emit('onPagination', pagination.nextPage)"
           class="page-link"
@@ -19,7 +19,7 @@
           {{ pagination.nextPage }}
         </a>
       </li>
-      <li class="page-item">
+      <li v-if="pagination.nextPage" class="page-item">
         <a
           @click.self="$emit('onPagination', pagination.nextPage + 1)"
           class="page-link"

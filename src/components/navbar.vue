@@ -18,7 +18,7 @@
     <router-link :to="{ name: 'Auth' }">
       <button
         type="button"
-        class="btn d-block mt-3 text-warning font-weight-bold"
+        class="login btn d-block mt-3 text-warning font-weight-bold"
       >
         <i class="material-icons small">person</i>
         Login
@@ -50,6 +50,9 @@ export default {};
     color: #c1d1e8;
     background-color: #5692e8;
     padding: 6px 20px !important;
+  }
+  .login {
+    color: goldenrod;
   }
 }
 </style>
