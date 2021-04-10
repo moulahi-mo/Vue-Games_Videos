@@ -60,7 +60,7 @@
             <button
               :disabled="!message.name || !message.email || !message.message"
               type="submit"
-              class="btn btn-primary btn-sm ml-auto d-block px-3"
+              class="btn btn-primary btn-sm mx-auto d-block px-3"
             >
               Send
             </button>

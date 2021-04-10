@@ -43,11 +43,17 @@ export default {
       isError: null,
     };
   },
+  mounted() {
+    console.log(location.hostname);
+  },
   methods: {
     onSubmit() {
       axios
         .post('https://play-area.herokuapp.com/api/v1/auth/reset', {
           email: this.email,
+          //* client hostname +protocol +port
+          host:
+            location.protocol + '//' + location.hostname + ':' + location.port,
         })
         .then((res) => {
           console.log(res);

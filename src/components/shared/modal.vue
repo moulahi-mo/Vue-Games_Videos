@@ -60,9 +60,17 @@ export default {
   methods: {
     async onRemove() {
       try {
-        const res = axios.delete(
-          'http://localhost:3000/api/v1/games/' + this.game._id
-        );
+        const res = await axios({
+          method: 'delete',
+          url: 'http://localhost:3000/api/v1/games/' + this.game._id,
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem('token')
+                ? localStorage.getItem('token')
+                : null
+            }`,
+          },
+        });
         this.$emit('onDelete', game._id);
         console.log(res.data.message);
       } catch (err) {

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import Details from '../components/games/details.vue';
-import Reset from '../views/Reset.vue';
 const routes = [
   {
     path: '/',
@@ -30,7 +29,16 @@ const routes = [
   {
     path: '/reset',
     name: 'Reset',
-    component: Reset,
+    component: () =>
+      import(/* webpackChunkName: "Resest password" */ '../views/Reset.vue'),
+  },
+  {
+    path: '/reset/:token',
+    name: 'NewPassword',
+    component: () =>
+      import(
+        /* webpackChunkName: "New password" */ '../components/auth/newPassword.vue'
+      ),
   },
 ];
 

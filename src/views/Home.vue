@@ -1,6 +1,7 @@
 <template>
   <section
-    class="listing d-flex flex-column flex-lg-row justify-content-between mt-5 pb-5"
+    v-if="isAuth"
+    class="home listing d-flex flex-column flex-lg-row justify-content-between mt-5 pb-5"
   >
     <div v-if="!isLoading && games.length > 0" class="row">
       <!-- ! filter box-->
@@ -51,6 +52,7 @@ import Pagination from '../components/shared/pagination';
 export default {
   name: 'Home',
   components: { Filterbox, Cards, NoData, Loader, Error, Pagination },
+
   data() {
     return {
       isLoading: false,
@@ -62,7 +64,12 @@ export default {
     };
   },
   mounted() {
-    this.FectAllGames();
+    //* verify if user is auth to get access to games page if not auto navigate to auth page
+    if (this.$store.state.isAuth) {
+      this.FectAllGames();
+    } else {
+      this.$router.push({ name: 'Auth' });
+    }
   },
   methods: {
     async FectAllGames(limit = 20, page = 1) {
@@ -101,7 +108,15 @@ export default {
       this.FectAllGames(this.limit, page);
     },
   },
-  computed: {},
+  computed: {
+    isAuth() {
+      return this.$store.state.isAuth;
+    },
+  },
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.home {
+  min-height: 100vh;
+}
+</style>

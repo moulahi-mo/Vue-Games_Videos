@@ -12,6 +12,25 @@ var $ = global.jQuery;
 import Navbar from './components/navbar.vue';
 export default {
   components: { Navbar, $, Footer },
+  mounted() {
+    const expiresIn = this.$store.state.expiresIn;
+    const token = localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : null;
+    if (token) {
+      let diff = new Date(expiresIn).getTime() - Date.now();
+      console.log(diff);
+      if (diff > 0) {
+        this.$store.state.isAuth = true;
+      } else {
+        this.$store.state.isAuth = false;
+        this.$store.state.token = token;
+        localStorage.removeItem('token');
+        localStorage.removeItem('uid');
+        localStorage.removeItem('expiresIn');
+      }
+    }
+  },
 };
 </script>
 

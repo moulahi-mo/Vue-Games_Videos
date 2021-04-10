@@ -21,9 +21,9 @@
     <!-- !  Logout-->
     <div v-if="auth" class="mt-3 ml-5">
       <button
-        @click="onLogout"
+        @click="onLogout()"
         type="button"
-        class="login btn d-block mt-3 text-warning font-weight-bold"
+        class="login btn d-block mt-3 text-light font-weight-bold"
       >
         <i class="material-icons small">logout</i>
         Logout
@@ -38,13 +38,25 @@ export default {
   methods: {
     async onLogout() {
       try {
-        await axios.post(
-          'https://play-area.herokuapp.com/api/v1/auth/logout',
-          {}
-        );
+        await axios({
+          method: 'post',
+          data: {},
+          url: 'https://play-area.herokuapp.com/api/v1/auth/logout',
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem('token')
+                ? localStorage.getItem('token')
+                : null
+            }`,
+          },
+        });
         // ! need to register the token in local storage to send it in headers for loggin out
         this.$store.state.isAuth = false;
-        this.$router.push('/');
+        this.$store.state.token = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('uid');
+        localStorage.removeItem('expiresIn');
+        this.$router.push({ name: 'Auth' });
       } catch (error) {
         console.log(error);
       }

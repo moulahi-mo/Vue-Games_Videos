@@ -85,11 +85,12 @@ export default {
       this.isError = null;
       console.log(this.game);
 
-      axios
-        .put(
-          'http://localhost:3000/api/v1/games/edit/' + this.game._id,
-          this.game
-        )
+      axios({
+        method: 'put',
+        data: this.game,
+        url: 'http://localhost:3000/api/v1/games/edit/' + this.game._id,
+        headers: { Authorization: `Bearer ${this.$store.state.token}` },
+      })
         .then((res) => {
           console.log(res.data);
           this.isLoading = false;

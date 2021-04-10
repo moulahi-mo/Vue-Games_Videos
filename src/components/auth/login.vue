@@ -158,6 +158,7 @@ export default {
     console.log(this.$store.state.isAuth);
   },
   methods: {
+    //! on login /  register
     onSubmit() {
       this.isLoading = true;
       this.$emit('isLoading');
@@ -173,6 +174,9 @@ export default {
             res.error ? (this.isError = res.error) : '';
             this.isLoading = false;
             console.log(res);
+            //* get the token
+            const { token, user, expiresIn } = res.data;
+            this.authHundler(token, expiresIn, user._id);
             this.$router.push({ name: 'Home' });
             this.$store.state.isAuth = true;
           })
@@ -193,6 +197,9 @@ export default {
           .then((res) => {
             this.isLoading = false;
             console.log(res);
+            //* get the token
+            const { token, user, expiresIn } = res.data;
+            this.authHundler(token, expiresIn, user._id);
             this.$router.push({ name: 'Home' });
             this.$store.state.isAuth = true;
             console.log(this.$store.state.isAuth);
@@ -205,6 +212,7 @@ export default {
           });
       }
     },
+    //! on confirming password
     onConfirmPassword(event) {
       const cPassword = event.target.value.trim();
       if (this.user.password !== cPassword) {
@@ -218,6 +226,21 @@ export default {
       } else if (this.user.password === cPassword) {
         this.isConfirmed = true;
         this.isMuchedPass = true;
+      }
+    },
+    //! hundle token auth
+    authHundler(token, expires, uid) {
+      if (token) {
+        //* set token payload on the local storage
+        this.$store.state.token = token;
+        localStorage.setItem('token', token);
+        expires.includes('30')
+          ? localStorage.setItem(
+              'expiresIn',
+              new Date(Date.now() + 60 * 60 * 1000 * 24 * 30)
+            )
+          : '';
+        localStorage.setItem('uid', uid);
       }
     },
   },
