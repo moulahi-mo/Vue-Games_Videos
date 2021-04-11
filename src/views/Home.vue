@@ -77,7 +77,8 @@ export default {
       this.isError = null;
       try {
         const res = await fetch(
-          'http://localhost:3000/api/v1/games?' + `limit=${limit}&page=${page}`
+          'https://play-area.herokuapp.com/api/v1/games?' +
+            `limit=${limit}&page=${page}`
         );
         const data = await res.json();
         this.games = data.data;
